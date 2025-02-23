@@ -11,6 +11,8 @@ RC4.py: permite únicamente realizar cifrado y descifrado con la clave y cadena 
 
 ## Ejemplo de ejecución: 
 
+### ENCRIPTADO 
+
 ```bash
 python rc4.py -c a0b2c1
 ```
@@ -18,9 +20,30 @@ python rc4.py -c a0b2c1
 INTRODUCIMOS LA PALABRA [ p r u e b a ] cuyo resultado será [5a37b7f0e6a6]
 
 ```bash
-python rc4-py -d aba0b2b2 5a37b7f0e6a6
+Array Acumulado Keystream decimal: [42, 69, 194, 149, 132, 199]
+Keystream binario: 11000111
+
+Array Resultado decimal: [90, 55, 183, 240, 230, 166]
+Resultado binario: 10100110
+Resultado ASCII: ¦
+Resultado hexadecimal: a6
+
+Cadena sin cifrar completa: prueba
+Cadena cifrada hexadecimal completa: 5a37b7f0e6a6
 ```
 
-RESULTADO: prueba
+### DESENCRIPTADO 
 
+```bash
+python rc4.py -d aba0b2b2 5a37b7f0e6a6
+```
+
+RESULTADO: 
+
+```bash
+KEYSTREAM: [42, 69, 194, 149, 132, 199, 112, 230, 76, 104, 173, 68]
+
+ARRAY de DESCIFRADO: [112, 114, 117, 101, 98, 97]
+Cadena descifrada completa: prueba
+```
 
