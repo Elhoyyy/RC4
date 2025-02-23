@@ -37,41 +37,47 @@ def cifrar(clave, S):
     chiperarray=[]
     keystream=[]
     keystream_paraprint=[]
+    rounds_tracking = ['' for _ in range(256)]  # Array para tracking de rondas
+    S_copy = S.copy()  # Copia del array S para mostrar con las rondas
+    
     while True:
         print("\nCambios de array S en cada generación:\n")
-        print_matrix(S)
+        # Mostrar S con el tracking de rondas
+        S_display = [f"{v}{rounds_tracking[idx]}" for idx, v in enumerate(S_copy)]
+        print_matrix(S_display)
         print("\nIngresa cada letra (escribe exit para terminar):")
         letra=input()
-        # Captura un solo carácter
         if letra == 'exit':
-            cifrado=[]  # Si se presiona Enter, termina el bucle
+            cifrado=[]
             break
-        elif len(letra) == 1 : # Si se ingresa un solo carácter
-            cadena += letra # Se añade a la cadena que queremos ir guardando en memoria
-            cadena2.append(ord(letra)) # Se añade esta vez pero como un array de enteros.
-            print("\nCaracter ASCII:" ,letra) #ascii
-            binario= bin(ord(letra)).replace('0b','') #pasamos a binario
-            if(len(binario) <8 ): # esto basicamente es para rellenar con ceros si el numero en binario no tiene 8 bits.
-                while (len(binario))<8: #si tiene menos de 8 ceros se llena si no no. 
+        elif len(letra) == 1:
+            cadena += letra
+            cadena2.append(ord(letra))
+            print("\nCaracter ASCII:" ,letra)
+            binario= bin(ord(letra)).replace('0b','')
+            if(len(binario) <8 ):
+                while (len(binario))<8:
                     binario="0"+binario
                 print ("Caracter BINARIO:",binario)
-
             else:
                 print ("Caracter BINARIO:",binario)
+            
             L= len(cadena)
-            while (k<L): # PRGA en la misma función de cifrado. 
+            while (k<L):
                 i= (i+1)%256
                 j=(j+S[i]) %256
+                # Actualizar el tracking de rondas
+                rounds_tracking[i] = f"->{r}º"
+                rounds_tracking[j] = f"->{r}º"
+                # Realizar el intercambio en ambos arrays
                 S[i], S[j]= S[j], S[i]
+                S_copy[i], S_copy[j] = S_copy[j], S_copy[i]
                 t= (S[i] + S[j]) %256
-                S[j], S[i]= f"{S[j]}->{r}º", f"{S[i]}->{r}º"
                 keystream.append(S[t])
                 k+=1
                 r+=1
             print("\nArray Acumulado Keystream decimal:", keystream)
             
-            
-                
             binario2=bin(keystream[len(keystream)-1]).replace('0b','') #hacemos lo mismo que antes pero con el keystream cogiendo el último elemento para pasarlo a binario
             if(len(binario2) < 8 ):
                 while (len(binario2))<8:
